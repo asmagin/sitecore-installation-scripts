@@ -1,6 +1,6 @@
 #Requires -Version 3
 
-# Hide progress bar to speed up installtion
+# Hide progress bar to speed up installation
 $global:ProgressPreference = 'silentlyContinue'
 Clear-Host
 
@@ -8,7 +8,6 @@ Clear-Host
 $prefix = "sc9"
 $siteName = "$prefix.local"
 $commerceSiteName = "$prefix.commerce"
-
 $commerceSearchProvider = "SOLR"
 $engineSdkPath = "c:/tmp/sitecore/engine_sdk"
 $nugetPath = "c:/tmp/msbuild.microsoft.visualstudio.web.targets.14.0.0.3"
