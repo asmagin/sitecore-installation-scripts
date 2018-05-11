@@ -26,7 +26,7 @@
 
     "UserAccount": { "Type": "psobject" }
   },
-  "Modules": ["InstallSitecoreConfiguration", "ManageCommerceService"],
+  "Modules": ["InstallSitecoreConfiguration", "ManageCommerceService", "WindowsLocalUser"],
   "Tasks": {
     "CommerceEngineCertificate": {
       "Type": "InstallSitecoreConfiguration",
@@ -96,6 +96,12 @@
         "CertificateName": "[parameter('SitecoreIdentityServerCertificateName')]",
         "RootCertFileName": "[parameter('RootCertFileName')]",
         "CertPath": "[parameter('CertPath')]"
+      }
+    },
+    "EnsureLocalUser": {
+      "Type": "EnsureLocalUser",
+      "Params": {
+        "UserAccount": "[parameter('UserAccount')]"
       }
     },
     "SetCertStorePermissions": {
