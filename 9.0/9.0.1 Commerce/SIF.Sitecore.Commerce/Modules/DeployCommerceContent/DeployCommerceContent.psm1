@@ -16,6 +16,15 @@ Function Invoke-DeployCommerceContentTask {
         [Parameter(Mandatory = $false)] [string]$CommerceAuthoringHostHeader = "localhost", 
         [Parameter(Mandatory = $false)] [string]$CommerceAuthoringServicesPort = "5000",
 
+        [Parameter(Mandatory = $false)] [string]$CommerceMinionsHostHeader = "localhost", 
+        [Parameter(Mandatory = $false)] [string]$CommerceMinionsServicesPort = "5010",
+        
+        [Parameter(Mandatory = $false)] [string]$CommerceOpsHostHeader = "localhost", 
+        [Parameter(Mandatory = $false)] [string]$CommerceOpsServicesPort = "5015",
+
+        [Parameter(Mandatory = $false)] [string]$CommerceShopsHostHeader = "localhost", 
+        [Parameter(Mandatory = $false)] [string]$CommerceShopsServicesPort = "5005",
+
         [Parameter(Mandatory = $false)] [string]$CommerceSearchProvider,
 
         [Parameter(Mandatory = $false)] [string]$SitecoreBizFxHostHeader = "localhost", 
@@ -73,6 +82,7 @@ Function Invoke-DeployCommerceContentTask {
 
                 $allowedOrigins = @($CommerceAuthoringBaseUri, $SiteBaseUri)
                 $originalJson.AppSettings.AllowedOrigins = $allowedOrigins
+                $originalJson.AppSettings.SslPort = $CommerceOpsServicesPort
                 $originalJson.AppSettings.SitecoreIdentityServerUrl = $SitecoreIdentityServerBaseUri
                 $originalJson | ConvertTo-Json -Depth 100 -Compress | set-content $pathToJson
 
@@ -152,9 +162,16 @@ Function Invoke-DeployCommerceContentTask {
                                 $Writejson = $true
                             }
                         }
+                        elseif ($p.'$type' -eq 'Sitecore.Commerce.Plugin.BusinessUsers.EnvironmentBusinessToolsPolicy,Sitecore.Commerce.Plugin.BusinessUsers') {
+                            if($p.ServiceUrl) # Check in Service url exists
+                            {
+                                $p.ServiceUrl = $CommerceAuthoringBaseUri
+                                $Writejson = $true
+                            }
+                        }
                     }
                     if ($Writejson) {
-                        $json = ConvertTo-Json $json -Depth 100
+                        $json = ConvertTo-Json $json -Depth 100 -Compress
                         Set-Content $jsonFile.FullName -Value $json -Encoding UTF8
                         $Writejson = $false
                     }
@@ -199,7 +216,7 @@ Function Invoke-DeployCommerceContentTask {
                     }
 					
                     if ($Writejson) {
-                        $json = ConvertTo-Json $json -Depth 100
+                        $json = ConvertTo-Json $json -Depth 100 -Compress
                         Set-Content $jsonFile.FullName -Value $json -Encoding UTF8
                         $Writejson = $false
                     }
@@ -226,6 +243,16 @@ Function Invoke-DeployCommerceContentTask {
                 
                 $allowedOrigins = @($SitecoreBizFxBaseUri)
                 $originalJson.AppSettings.AllowedOrigins = $allowedOrigins
+                if ($_ -match "CommerceShops") { 
+                    $originalJson.AppSettings.SslPort = $CommerceShopsServicesPort
+                }                    
+                elseif ($_ -match "CommerceAuthoring") { 
+                    $originalJson.AppSettings.SslPort = $CommerceAuthoringServicesPort
+                }                    
+                elseif ($_ -match "CommerceMinions") { 
+                    $originalJson.AppSettings.SslPort = $CommerceMinionsServicesPort
+                }
+                
                 $originalJson.AppSettings.SitecoreIdentityServerUrl = $SitecoreIdentityServerBaseUri
 
                 $environment = "HabitatShops"
@@ -237,6 +264,29 @@ Function Invoke-DeployCommerceContentTask {
                 }		
                 $originalJson.AppSettings.EnvironmentName = $environment
                 $originalJson | ConvertTo-Json -Depth 100 -Compress | set-content $pathToJson
+
+                $pathToEnvironmentFiles = $(Join-Path -Path $PhysicalPath -ChildPath "wwwroot\data\Environments")
+
+                #Replace values in environment files
+                $Writejson = $false
+                $environmentFiles = Get-ChildItem $pathToEnvironmentFiles -Filter *.json
+                foreach ($jsonFile in $environmentFiles) {
+                    $json = Get-Content $jsonFile.FullName -Raw | ConvertFrom-Json
+                    foreach ($p in $json.Policies.'$values') {
+                        if ($p.'$type' -eq 'Sitecore.Commerce.Plugin.BusinessUsers.EnvironmentBusinessToolsPolicy,Sitecore.Commerce.Plugin.BusinessUsers') {
+                            if($p.ServiceUrl) # Check in Service url exists
+                            {
+                                $p.ServiceUrl = $CommerceAuthoringBaseUri
+                                $Writejson = $false
+                            }
+                        }
+                    }
+                    if ($Writejson) {
+                        $json = ConvertTo-Json $json -Depth 100 -Compress
+                        Set-Content $jsonFile.FullName -Value $json -Encoding UTF8
+                        $Writejson = $false
+                    }
+                }
             }               
             'SitecoreIdentityServer' {
                 Write-Host

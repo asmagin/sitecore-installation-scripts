@@ -23,10 +23,10 @@ param(
     [string]$CommerceSearchProvider = "SOLR",
     [string]$CommerceSiteName = "$Prefix.commerce",
     [string]$Drive = $($Env:SYSTEMDRIVE),
-    [string]$XConnectSiteHostHeaderName = "$($Prefix).local.xconnect",
+    [string]$XConnectSiteHostHeaderName = "$($Prefix).xconnect",
     [string]$SolrUrl = "https://localhost:8983/solr",
     [string]$SolrInstallDir = "C:/tools/solr-6.6.2",
-    [string]$SolrService = "solr-6.6.2",
+    [string]$SolrService = "SOLR",
     [string]$SqlServer = "localhost",
     [string]$SitecoreUsername = "sitecore\admin",
     [string]$SitecoreUserPassword = "b",
@@ -144,7 +144,7 @@ $params = @{
 
     # Tools
     ToolsSiteUtilitiesDir                    = ( Join-Path -Path $DEPLOYMENT_DIRECTORY -ChildPath "SiteUtilityPages" )
-    ToolsMergeToolPath                       = Resolve-Path -Path "..\Microsoft.Web.XmlTransform.dll"
+    ToolsMergeToolPath                       = Resolve-Path -Path "..\msbuild.microsoft.visualstudio.web.targets.14.0.0.3\tools\VSToolsPath\Web\Microsoft.Web.XmlTransform.dll"
 
     # Accounts
     SitecoreUsername                         = $SitecoreUsername
@@ -194,6 +194,13 @@ $params = @{
 #     Add-Type $certCallback
 # }
 # [ServerCertificateValidationCallback]::Ignore()
+### --------------------------------------------------------------
+
+### --------- HACK DISABLE PASSWORD COMPLEXITY -------------------
+secedit /export /cfg c:\secpol.cfg
+(gc C:\secpol.cfg).replace("PasswordComplexity = 1", "PasswordComplexity = 0") | Out-File C:\secpol.cfg
+secedit /configure /db c:\windows\security\local.sdb /cfg c:\secpol.cfg /areas SECURITYPOLICY
+rm -force c:\secpol.cfg -confirm:$false
 ### --------------------------------------------------------------
 
 if ($commerceSearchProvider -eq "SOLR") {

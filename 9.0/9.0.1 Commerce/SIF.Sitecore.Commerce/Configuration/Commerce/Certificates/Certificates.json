@@ -111,8 +111,7 @@
         "Rights": [
           {
             "User": "[parameter('UserAccount'))]",
-            "FileSystemRights": ["Read"],
-            "InheritanceFlags": ["None"]
+            "FileSystemRights": ["Read"]
           }
         ]
       }
