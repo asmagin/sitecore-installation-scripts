@@ -55,6 +55,8 @@
 
     "RootCertFileName": { "Type": "string", "Description": "The file name of the root certificate to be created.", "DefaultValue": "SitecoreRootCert" },
     "SiteHostHeader": { "Type": "string", "Description": "The host header name of the site to be deployed." },
+    "SitecoreUsername": { "Type": "string", "Description": "Sitecore Admin Username" },
+    "SitecoreUserPassword": { "Type": "string", "Description": "Sitecore Admin Password" },
 
     "SolrCorePrefix": { "Type": "string", "DefaultValue": "sc9", "Description": "The prefix used for all Solr cores." },
     "SolrUrl": { "Type": "string", "DefaultValue": "https://localhost:8983/solr", "Description": "The Solr instance url." },
@@ -280,6 +282,8 @@
         "SitecoreIdentityServerHostHeader": "[parameter('SitecoreIdentityServerHostHeader')]",
         "SitecoreIdentityServerServicesPort": "[parameter('SitecoreIdentityServerServicesPort')]",
         "SiteHostHeader": "[parameter('SiteHostHeader')]",
+        "SitecoreUsername": "[parameter('SitecoreUsername')]",
+        "SitecoreUserPassword": "[parameter('SitecoreUserPassword')]",
         "SolrCorePrefix": "[parameter('SolrCorePrefix')]",
         "SolrUrl": "[parameter('SolrUrl')]",
         "SqlCommerceServicesDbName": "[parameter('SqlCommerceServicesDbName')]",
@@ -341,6 +345,8 @@
         "SitecoreIdentityServerHostHeader": "[parameter('SitecoreIdentityServerHostHeader')]",
         "SitecoreIdentityServerServicesPort": "[parameter('SitecoreIdentityServerServicesPort')]",
         "SiteHostHeader": "[parameter('SiteHostHeader')]",
+        "SitecoreUsername": "[parameter('SitecoreUsername')]",
+        "SitecoreUserPassword": "[parameter('SitecoreUserPassword')]",
         "UserAccount": "[parameter('UserAccount')]"
       }
     },
@@ -397,6 +403,8 @@
         "SitecoreIdentityServerHostHeader": "[parameter('SitecoreIdentityServerHostHeader')]",
         "SitecoreIdentityServerServicesPort": "[parameter('SitecoreIdentityServerServicesPort')]",
         "SiteHostHeader": "[parameter('SiteHostHeader')]",
+        "SitecoreUsername": "[parameter('SitecoreUsername')]",
+        "SitecoreUserPassword": "[parameter('SitecoreUserPassword')]",
         "UserAccount": "[parameter('UserAccount')]"
       }
     },
@@ -452,6 +460,8 @@
         "SitecoreIdentityServerHostHeader": "[parameter('SitecoreIdentityServerHostHeader')]",
         "SitecoreIdentityServerServicesPort": "[parameter('SitecoreIdentityServerServicesPort')]",
         "SiteHostHeader": "[parameter('SiteHostHeader')]",
+        "SitecoreUsername": "[parameter('SitecoreUsername')]",
+        "SitecoreUserPassword": "[parameter('SitecoreUserPassword')]",
         "UserAccount": "[parameter('UserAccount')]"
       }
     },
