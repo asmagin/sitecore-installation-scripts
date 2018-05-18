@@ -416,7 +416,9 @@
         "CommerceOpsDir": "[parameter('CommerceOpsDir')]",
         "CommerceShopsDir": "[parameter('CommerceShopsDir')]",
         "CommerceShopsHostHeader": "[parameter('CommerceShopsHostHeader')]",
+        "CommerceShopsServicesPort": "[parameter('CommerceShopsServicesPort')]",
         "SitecoreIdentityServerHostHeader": "[parameter('SitecoreIdentityServerHostHeader')]",
+        "SitecoreIdentityServerServicesPort": "[parameter('SitecoreIdentityServerServicesPort')]",
 
         "SitecoreAdminAccount": {
           "UserName": "[parameter('SitecoreUsername')]",
