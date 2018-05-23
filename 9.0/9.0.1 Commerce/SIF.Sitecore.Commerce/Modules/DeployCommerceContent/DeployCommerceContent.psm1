@@ -189,11 +189,21 @@ Function Invoke-DeployCommerceContentTask {
                     $jsonFile = Get-ChildItem "$pathToEnvironmentFiles\PlugIn.Search.PolicySet*.json"
                     $json = Get-Content $jsonFile.FullName -Raw | ConvertFrom-Json
                     $indexes = @()
+                    
                     # Generically update the different search scope policies so it will be updated for any index that exists or is created in the future
                     Foreach ($p in $json.Policies.'$values') {
                         if ($p.'$type' -eq 'Sitecore.Commerce.Plugin.Search.SearchViewPolicy, Sitecore.Commerce.Plugin.Search') {
                             $oldSearchScopeName = $p.SearchScopeName
-                            $searchScopeName = "$SearchIndexPrefix$oldSearchScopeName"
+                            if ($p.SearchScopeName -eq "OrdersScope") {
+                                $searchScopeName = "$($SearchIndexPrefix)_orders_scope"
+                            }
+                            elseif ($p.SearchScopeName -eq "CustomersScope") {
+                                $searchScopeName = "$($SearchIndexPrefix)_customers_scope"
+                            }
+                            elseif ($p.SearchScopeName -eq "CatalogItemsScope") {
+                                $searchScopeName = "$($SearchIndexPrefix)_catalog_items_scope"
+                            }
+                            
                             $p.SearchScopeName = $searchScopeName;
                             $Writejson = $true;
 
@@ -205,7 +215,15 @@ Function Invoke-DeployCommerceContentTask {
 
                         if ($p.'$type' -eq 'Sitecore.Commerce.Plugin.Search.SearchScopePolicy, Sitecore.Commerce.Plugin.Search') {
                             $oldName = $p.Name
-                            $name = "$SearchIndexPrefix$oldName"
+                            if ($p.Name -eq "OrdersScope") {
+                                $name = "$($SearchIndexPrefix)_orders_scope"
+                            }
+                            elseif ($p.Name -eq "CustomersScope") {
+                                $name = "$($SearchIndexPrefix)_customers_scope"
+                            }
+                            elseif ($p.Name -eq "CatalogItemsScope") {
+                                $name = "$($SearchIndexPrefix)_catalog_items_scope"
+                            }
                             $p.Name = $name;
                             $Writejson = $true;
 
@@ -214,7 +232,16 @@ Function Invoke-DeployCommerceContentTask {
 
                         if ($p.'$type' -eq 'Sitecore.Commerce.Plugin.Search.IndexablePolicy, Sitecore.Commerce.Plugin.Search') {
                             $oldSearchScopeName = $p.SearchScopeName
-                            $searchScopeName = "$SearchIndexPrefix$oldSearchScopeName"
+
+                            if ($p.SearchScopeName -eq "OrdersScope") {
+                                $searchScopeName = "$($SearchIndexPrefix)_orders_scope"
+                            }
+                            elseif ($p.SearchScopeName -eq "CustomersScope") {
+                                $searchScopeName = "$($SearchIndexPrefix)_customers_scope"
+                            }
+                            elseif ($p.SearchScopeName -eq "CatalogItemsScope") {
+                                $searchScopeName = "$($SearchIndexPrefix)_catalog_items_scope"
+                            }
                             $p.SearchScopeName = $searchScopeName;
                             $Writejson = $true;
 
