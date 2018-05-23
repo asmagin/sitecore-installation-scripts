@@ -82,7 +82,6 @@ Function Invoke-DeployCommerceContentTask {
                 $originalJson = Get-Content $pathToJson -Raw  | ConvertFrom-Json
                 $originalJson.AppSettings.EnvironmentName = "AdventureWorksOpsApi"
 
-                $allowedOrigins = @($CommerceAuthoringBaseUri, $SiteBaseUri)
                 $allowedOrigins = @($SitecoreBizFxBaseUri, $SiteBaseUri)
                 $originalJson.AppSettings.AllowedOrigins = $allowedOrigins
                 $originalJson.AppSettings.SslPort = $CommerceOpsServicesPort
@@ -249,7 +248,6 @@ Function Invoke-DeployCommerceContentTask {
                 $pathToJson = $(Join-Path -Path $PhysicalPath -ChildPath "wwwroot\config.json")
                 $originalJson = Get-Content $pathToJson -Raw | ConvertFrom-Json
 
-                $allowedOrigins = @($SitecoreBizFxBaseUri)
                 $allowedOrigins = @($SitecoreBizFxBaseUri, $SiteBaseUri)
                 $originalJson.AppSettings.AllowedOrigins = $allowedOrigins
                 if ($_ -match "CommerceShops") {
