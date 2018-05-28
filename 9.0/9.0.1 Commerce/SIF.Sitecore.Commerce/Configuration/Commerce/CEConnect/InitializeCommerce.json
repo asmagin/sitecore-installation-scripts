@@ -21,10 +21,16 @@
   "Variables": {},
   "Modules": ["InitializeCommerce"],
   "Tasks": {
-    "ApplyCertificate": {
-      "Type": "ApplyCertificate",
+    "ApplyCertificateToSitecore": {
+      "Type": "ApplyCertificateToSitecore",
       "Params": {
         "EngineConnectIncludeDir": "[parameter('EngineConnectIncludeDir')]",
+        "CertificatePath": "[parameter('CertificatePath')]"
+      }
+    },
+    "ApplyCertificateToCommerceEngines": {
+      "Type": "ApplyCertificateToCommerceEngines",
+      "Params": {
         "CertificatePath": "[parameter('CertificatePath')]",
         "CommerceServicesPathCollection": ["[parameter('CommerceOpsDir')]", "[parameter('CommerceShopsDir')]", "[parameter('CommerceAuthoringDir')]", "[parameter('CommerceMinionsDir')]"]
       }

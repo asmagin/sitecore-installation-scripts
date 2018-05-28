@@ -1,4 +1,3 @@
-
 Function Invoke-UpdateShopsPortTask {
     [CmdletBinding()]
     param(
@@ -21,15 +20,13 @@ Function Invoke-UpdateShopsPortTask {
     $xml.Save($pathToConfig)      
 }
 
-Function Invoke-ApplyCertificateTask {
+Function Invoke-ApplyCertificateToSitecoreTask {
     [CmdletBinding()]
     param(
         [Parameter(Mandatory = $true)]
         [string]$EngineConnectIncludeDir,
         [Parameter(Mandatory = $true)]
-        [string]$CertificatePath,
-        [Parameter(Mandatory = $true)]
-        [string[]]$CommerceServicesPathCollection
+        [string]$CertificatePath
     )      
 
     $cert = New-Object System.Security.Cryptography.X509Certificates.X509Certificate2
@@ -41,7 +38,22 @@ Function Invoke-ApplyCertificateTask {
     $xml = [xml](Get-Content $pathToConfig)
     $node = $xml.configuration.sitecore.commerceEngineConfiguration
     $node.certificateThumbprint = $cert.Thumbprint
-    $xml.Save($pathToConfig)  
+    $xml.Save($pathToConfig)
+}
+
+Function Invoke-ApplyCertificateToCommerceEnginesTask {
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$CertificatePath,
+        [Parameter(Mandatory = $true)]
+        [string[]]$CommerceServicesPathCollection
+    )      
+
+    $cert = New-Object System.Security.Cryptography.X509Certificates.X509Certificate2
+    $cert.Import($CertificatePath)
+
+    Write-Host "Applying certificate: $($cert.Thumbprint)" -ForegroundColor Green
 
     foreach ($path in $CommerceServicesPathCollection) {
         $pathToJson = $(Join-Path -Path $path -ChildPath "wwwroot\config.json") 
@@ -201,7 +213,9 @@ Function Invoke-EnsureSyncDefaultContentPathsTask {
 
 Register-SitecoreInstallExtension -Command Invoke-UpdateShopsPortTask -As UpdateShopsPort -Type Task -Force
 
-Register-SitecoreInstallExtension -Command Invoke-ApplyCertificateTask -As ApplyCertificate -Type Task -Force
+Register-SitecoreInstallExtension -Command Invoke-ApplyCertificateToSitecoreTask -As ApplyCertificate -Type Task -Force
+
+Register-SitecoreInstallExtension -Command Invoke-ApplyCertificateToCommerceEnginesTask -As ApplyCertificate -Type Task -Force
 
 Register-SitecoreInstallExtension -Command Invoke-GetIdServerTokenTask -As GetIdServerToken -Type Task -Force
 
