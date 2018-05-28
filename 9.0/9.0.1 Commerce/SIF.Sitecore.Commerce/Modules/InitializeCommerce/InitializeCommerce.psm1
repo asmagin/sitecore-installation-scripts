@@ -213,9 +213,9 @@ Function Invoke-EnsureSyncDefaultContentPathsTask {
 
 Register-SitecoreInstallExtension -Command Invoke-UpdateShopsPortTask -As UpdateShopsPort -Type Task -Force
 
-Register-SitecoreInstallExtension -Command Invoke-ApplyCertificateToSitecoreTask -As ApplyCertificate -Type Task -Force
+Register-SitecoreInstallExtension -Command Invoke-ApplyCertificateToSitecoreTask -As ApplyCertificateToSitecore -Type Task -Force
 
-Register-SitecoreInstallExtension -Command Invoke-ApplyCertificateToCommerceEnginesTask -As ApplyCertificate -Type Task -Force
+Register-SitecoreInstallExtension -Command Invoke-ApplyCertificateToCommerceEnginesTask -As ApplyCertificateToCommerceEngines -Type Task -Force
 
 Register-SitecoreInstallExtension -Command Invoke-GetIdServerTokenTask -As GetIdServerToken -Type Task -Force
 
