@@ -19,7 +19,7 @@
     "AzureSearchServiceName": { "Type": "string", "DefaultValue": "", "Description": "The Azure search service name. Requires param CommerceSearchProvider to be set to 'AZURE'" },
 
     "CommerceEngineCertificateName": { "Type": "string" },
-    "CommerceEngineCertificatePath": { "Type": "string", "Description": "Commerce Engile certificate full path" },
+    "CommerceEngineCertificatePath": { "Type": "string", "Description": "Commerce Engine certificate full path" },
     "CommerceSearchProvider": { "Type": "string", "DefaultValue": "SOLR", "Description": "The search provider used for the Commerce Engine - Accepted values are 'SOLR' and 'AZURE'" },
     "CommerceServicesPrefix": { "Type": "string", "DefaultValue": "sc9", "Description": "The Commerce Engine prefix for services names" },
 
