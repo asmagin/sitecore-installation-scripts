@@ -22,7 +22,7 @@ param(
     [string]$SqlDbPrefix = $Prefix,
     [string]$CommerceSearchProvider = "SOLR",
     [string]$CommerceSiteName = "$Prefix.commerce",
-    [string]$Drive = $($Env:SYSTEMDRIVE),
+    [string]$WebRoot = "C:\inetpub\wwwroot",
     [string]$XConnectSiteHostHeaderName = "$($Prefix).xconnect",
     [string]$SolrUrl = "https://localhost:8983/solr",
     [string]$SolrInstallDir = "C:/tools/solr-6.6.2",
@@ -69,8 +69,8 @@ $params = @{
     # CM instance and XConnect settings
     SiteName                                 = $SiteName
     SiteHostHeader                           = $siteHostHeader
-    SiteInstallDir                           = "$($Drive)\inetpub\wwwroot\$Prefix.local"
-    XConnectInstallDir                       = "$($Drive)\inetpub\wwwroot\$Prefix.xconnect"
+    SiteInstallDir                           = "$(Join-Path $WebRoot $Prefix.local)"
+    XConnectInstallDir                       = "$(Join-Path $WebRoot $Prefix.xconnect)"
 
     # SQL
     SqlCommerceServicesDbName                = "$($Prefix)_SitecoreCommerce_SharedEnvironments"
@@ -83,42 +83,42 @@ $params = @{
     CommerceAuthoring                        = "$CommerceSiteName-authoring"
     CommerceAuthoringCertificateDnsName      = "*.$Prefix.local"
     CommerceAuthoringCertificateName         = "all.$Prefix.local"
-    CommerceAuthoringDir                     = "$($Env:SYSTEMDRIVE)\inetpub\wwwroot\$CommerceSiteName-authoring"
+    CommerceAuthoringDir                     = "$(Join-Path $WebRoot $('{0}-authoring' -f $CommerceSiteName))"
     CommerceAuthoringHostHeader              = "commerce-authoring.$SiteName"
     CommerceAuthoringServicesPort            = "443"
 
     CommerceMinions                          = "$CommerceSiteName-minions"
     CommerceMinionsCertificateDnsName        = "*.$Prefix.local"
     CommerceMinionsCertificateName           = "all.$Prefix.local"
-    CommerceMinionsDir                       = "$($Env:SYSTEMDRIVE)\inetpub\wwwroot\$CommerceSiteName-minions"
+    CommerceMinionsDir                       = "$(Join-Path $WebRoot $('{0}-minions' -f $CommerceSiteName))"
     CommerceMinionsHostHeader                = "commerce-minions.$SiteName"
     CommerceMinionsServicesPort              = "443"
 
     CommerceOps                              = "$CommerceSiteName-ops"
     CommerceOpsCertificateDnsName            = "*.$Prefix.local"
     CommerceOpsCertificateName               = "all.$Prefix.local"
-    CommerceOpsDir                           = "$($Env:SYSTEMDRIVE)\inetpub\wwwroot\$CommerceSiteName-ops"
+    CommerceOpsDir                           = "$(Join-Path $WebRoot $('{0}-ops' -f $CommerceSiteName))"
     CommerceOpsHostHeader                    = "commerce-ops.$SiteName"
     CommerceOpsServicesPort                  = "443"
 
     CommerceShops                            = "$CommerceSiteName-shops"
     CommerceShopsCertificateDnsName          = "*.$Prefix.local"
     CommerceShopsCertificateName             = "all.$Prefix.local"
-    CommerceShopsDir                         = "$($Env:SYSTEMDRIVE)\inetpub\wwwroot\$CommerceSiteName-shops"
+    CommerceShopsDir                         = "$(Join-Path $WebRoot $('{0}-shops' -f $CommerceSiteName))"
     CommerceShopsHostHeader                  = "commerce-shops.$SiteName"
     CommerceShopsServicesPort                = "443"
 
     SitecoreIdentityServer                   = "$CommerceSiteName-identity"
     SitecoreIdentityServerCertificateDnsName = "*.$Prefix.local"
     SitecoreIdentityServerCertificateName    = "all.$Prefix.local"
-    SitecoreIdentityServerDir                = "$($Env:SYSTEMDRIVE)\inetpub\wwwroot\$CommerceSiteName-identity"
+    SitecoreIdentityServerDir                = "$(Join-Path $WebRoot $('{0}-identity' -f $CommerceSiteName))"
     SitecoreIdentityServerHostHeader         = "identity.$SiteName"
     SitecoreIdentityServerServicesPort       = "443"
 
     SitecoreBizFx                            = "$CommerceSiteName-bizfx"
     SitecoreBizFxCertificateDnsName          = "*.$Prefix.local"
     SitecoreBizFxCertificateName             = "all.$Prefix.local"
-    SitecoreBizFxDir                         = "$($Env:SYSTEMDRIVE)\inetpub\wwwroot\$CommerceSiteName-bizfx"
+    SitecoreBizFxDir                         = "$(Join-Path $WebRoot $('{0}-bizfx' -f $CommerceSiteName))"
     SitecoreBizFxHostHeader                  = "bizfx.$SiteName"
     SitecoreBizFxServicesPort                = "443"
 
@@ -127,24 +127,24 @@ $params = @{
     CommerceEngineCertificateName            = $CommerceSiteName
 
     # Packages
-    PackageAdventureWorksImagesPath          = Resolve-Path -Path "..\Adventure Works Images.zip"
-    PackageCEConnectPath                     = Resolve-Path -Path "..\Sitecore.Commerce.Engine.Connect*.update"
-    PackageCommerceConnectPath               = Resolve-Path -Path "..\Sitecore Commerce Connect*.zip"
-    PackageCommerceEngineDacPacPath          = Resolve-Path -Path "..\Sitecore.Commerce.Engine.SDK.2.1.10\Sitecore.Commerce.Engine.DB.dacpac"
-    PackageHabitatImagesPath                 = Resolve-Path -Path "..\Sitecore.Commerce.Habitat.Images-*.zip"
-    PackagePowerShellExtensionsPath          = Resolve-Path -Path "..\Sitecore PowerShell Extensions-4.7.2 for Sitecore 8.zip"
-    PackageSitecoreBizFxServicesContentDir   = Resolve-Path -Path "..\Sitecore.BizFX.1.1.9"
-    PackageSitecoreCommerceEnginePath        = Resolve-Path -Path "..\Sitecore.Commerce.Engine.2.*.zip"
-    PackageSitecoreIdentityServerPath        = Resolve-Path -Path "..\Sitecore.IdentityServer.1.*.zip"
-    PackageSXACommercePath                   = Resolve-Path -Path "..\Sitecore Commerce Experience Accelerator 1.*.zip"
-    PackageSXAPath                           = Resolve-Path -Path "..\Sitecore Experience Accelerator 1.7 rev. 180410 for 9.0.zip"
-    PackageSXAStorefrontCatalogPath          = Resolve-Path -Path "..\Sitecore Commerce Experience Accelerator Habitat Catalog*.zip"
-    PackageSXAStorefrontPath                 = Resolve-Path -Path "..\Sitecore Commerce Experience Accelerator Storefront 1.*.zip"
-    PackageSXAStorefrontThemePath            = Resolve-Path -Path "..\Sitecore Commerce Experience Accelerator Storefront Themes*.zip"
+    PackageAdventureWorksImagesPath          = Resolve-Path -Path "..\assets\Adventure Works Images.zip"
+    PackageCEConnectPath                     = Resolve-Path -Path "..\assets\Sitecore.Commerce.Engine.Connect*.update"
+    PackageCommerceConnectPath               = Resolve-Path -Path "..\assets\Sitecore Commerce Connect*.zip"
+    PackageCommerceEngineDacPacPath          = Resolve-Path -Path "..\assets\Sitecore.Commerce.Engine.SDK.2.1.10\Sitecore.Commerce.Engine.DB.dacpac"
+    PackageHabitatImagesPath                 = Resolve-Path -Path "..\assets\Sitecore.Commerce.Habitat.Images-*.zip"
+    PackagePowerShellExtensionsPath          = Resolve-Path -Path "..\assets\Sitecore PowerShell Extensions-4.7.2 for Sitecore 8.zip"
+    PackageSitecoreBizFxServicesContentDir   = Resolve-Path -Path "..\assets\Sitecore.BizFX.1.1.9"
+    PackageSitecoreCommerceEnginePath        = Resolve-Path -Path "..\assets\Sitecore.Commerce.Engine.2.*.zip"
+    PackageSitecoreIdentityServerPath        = Resolve-Path -Path "..\assets\Sitecore.IdentityServer.1.*.zip"
+    PackageSXACommercePath                   = Resolve-Path -Path "..\assets\Sitecore Commerce Experience Accelerator 1.*.zip"
+    PackageSXAPath                           = Resolve-Path -Path "..\assets\Sitecore Experience Accelerator 1.7 rev. 180410 for 9.0.zip"
+    PackageSXAStorefrontCatalogPath          = Resolve-Path -Path "..\assets\Sitecore Commerce Experience Accelerator Habitat Catalog*.zip"
+    PackageSXAStorefrontPath                 = Resolve-Path -Path "..\assets\Sitecore Commerce Experience Accelerator Storefront 1.*.zip"
+    PackageSXAStorefrontThemePath            = Resolve-Path -Path "..\assets\Sitecore Commerce Experience Accelerator Storefront Themes*.zip"
 
     # Tools
     ToolsSiteUtilitiesDir                    = ( Join-Path -Path $DEPLOYMENT_DIRECTORY -ChildPath "SiteUtilityPages" )
-    ToolsMergeToolPath                       = Resolve-Path -Path "..\msbuild.microsoft.visualstudio.web.targets.14.0.0.3\tools\VSToolsPath\Web\Microsoft.Web.XmlTransform.dll"
+    ToolsMergeToolPath                       = Resolve-Path -Path "..\assets\msbuild.microsoft.visualstudio.web.targets.14.0.0.3\tools\VSToolsPath\Web\Microsoft.Web.XmlTransform.dll"
 
     # Accounts
     SitecoreUsername                         = $SitecoreUsername
