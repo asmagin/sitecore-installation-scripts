@@ -1,2 +1,4 @@
 *.log
 *.InstallLog
+/.vs
+/9.0/9.0.1 Commerce/assets
